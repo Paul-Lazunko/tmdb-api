@@ -26,14 +26,14 @@ export class DataSourceSync {
       }
       setTimeout(() => {
         this.eventEmitter.emit(SYNC_EVENT_NAME);
-      })
+      }, SYNC_TIMEOUT)
     })
   }
 
   public start() {
     setTimeout(() => {
       this.eventEmitter.emit(SYNC_EVENT_NAME);
-    })
+    }, SYNC_TIMEOUT)
   }
 
   public stop() {
