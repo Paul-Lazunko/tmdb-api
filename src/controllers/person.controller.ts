@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { MovieDto, PersonDto } from '../contracts';
-import { EHttpStatus } from '../constants';
+import {EHttpStatus, EOperands} from '../constants';
 import { HttpController } from './http.controller';
 import { PersonService } from '../services';
 
@@ -18,6 +18,13 @@ export class PersonController extends HttpController {
     const { id } = req.params;
     const person: Partial<PersonDto> = this.service.getPerson(parseInt(id, 10))
     res.status(this.getResponseStatus(person)).json({ person: person || null })
+  }
+
+  public getPersonsByRolesCount(req: Request, res: Response, next: NextFunction) {
+    const { operand, value } = req.params;
+    const persons: Partial<PersonDto>[] = this.service
+      .getPersonsByRolesCount(operand as EOperands, parseInt(value, 10));
+    res.status(EHttpStatus.OK).json({ person: persons })
   }
 
   public movies(req: Request, res: Response, next: NextFunction) {

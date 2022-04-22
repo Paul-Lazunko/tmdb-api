@@ -36,6 +36,42 @@ personRouter.get(
   personController.try.get
 );
 
+/**
+ * @swagger
+ * /person/roles-count/{operand}/{value}:
+ *   get:
+ *     tags: [Person]
+ *     summary: Get Person by roles count
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      - name: operand
+ *        in: path
+ *        required: true
+ *        type: string
+ *        enum: [gt,gte,lt,lte,is,not]
+ *      - name: value
+ *        in: path
+ *        required: true
+ *        type: number
+ *     responses:
+ *       200:
+ *         description: OK
+ *         schema:
+ *            type: object
+ *            properties:
+ *              persons:
+ *                type: array
+ *                items:
+ *                  $ref: '#/definitions/Person'
+ */
+
+personRouter.get(
+  '/person/roles-count/:operand/:value',
+  createValidator(personValidationSchema.paramsRolesCount, 'params', DEFAULT_JOI_OPTIONS),
+  personController.try.getPersonsByRolesCount
+);
+
 
 /**
  * @swagger

@@ -6,3 +6,4 @@ export * from './http-request-property.type';
 export * from './default-joi-options';
 export * from './test';
 export * from './events';
+export * from './operands.enum';

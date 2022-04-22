@@ -1,5 +1,7 @@
 import { DataSource } from '../data-source';
 import { CharacterDto, MovieDto, PersonDto } from '../contracts';
+import { EOperands } from '../constants';
+import { rolesCountHelper } from '../helpers';
 
 export class PersonService {
 
@@ -8,6 +10,18 @@ export class PersonService {
       const { movies, characters, ...person } = DataSource.PERSONS.get(id);
       return person;
     }
+  }
+
+  public getPersonsByRolesCount(operand: EOperands, value: number): Partial<PersonDto>[] {
+    const result: Partial<PersonDto>[] = [];
+    const handler: (person: PersonDto) => boolean = rolesCountHelper(operand, value);
+    DataSource.PERSONS.forEach((p: PersonDto) => {
+      if (handler(p) ) {
+        const { movies, characters, ...person } = p
+        result.push(person);
+      }
+    });
+    return result;
   }
 
   public getPersonMovies(id: number): { person: Partial<PersonDto>, movies: Partial<MovieDto>[] } {
