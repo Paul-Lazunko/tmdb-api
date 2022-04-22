@@ -2,7 +2,7 @@ import DoneCallback = jest.DoneCallback;
 import request, {Response} from 'supertest';
 
 import {
-  EHttpStatus,
+  EHttpStatus, EOperands,
   INVALID_PERSON_ID,
   VALID_PERSON_ID
 } from '../../src/constants';
@@ -58,6 +58,21 @@ describe('tmdb-api application e2e test suite', () => {
         expect(response.body.person).toBeDefined()
         expect(response.body.movies).toBeDefined()
         expect(response.body.movies.length).toBeGreaterThan(0)
+        done();
+      })
+      .catch((e: Error) => done(e))
+  });
+
+  it(`Should return persons by roles count`, (done: DoneCallback) => {
+    request(application.app)
+      .get(`/person/roles-count/${EOperands.GTE}/${2}`)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(EHttpStatus.OK)
+      .then((response: Response) => {
+        expect(response.body).toBeDefined();
+        expect(response.body.persons).toBeDefined()
+        expect(response.body.persons.length).toBeGreaterThan(0)
         done();
       })
       .catch((e: Error) => done(e))
