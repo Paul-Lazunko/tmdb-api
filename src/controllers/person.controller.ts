@@ -24,7 +24,7 @@ export class PersonController extends HttpController {
     const { operand, value } = req.params;
     const persons: Partial<PersonDto>[] = this.service
       .getPersonsByRolesCount(operand as EOperands, parseInt(value, 10));
-    res.status(EHttpStatus.OK).json({ person: persons })
+    res.status(EHttpStatus.OK).json({ persons })
   }
 
   public movies(req: Request, res: Response, next: NextFunction) {
