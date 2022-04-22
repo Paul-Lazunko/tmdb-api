@@ -17,7 +17,7 @@ export class DataSourceController {
     console.log('\x1b[1m', 'Starting fetching The Movie DB');
     console.time('runtime');
     for (const movieName in config) {
-      console.log(`Fetching movie ${movieName}`)
+      console.log(`Fetching movie "${movieName}"`)
       const movieId = config[movieName];
       const movie: MovieDto = await this.theMovieDbService.getMovie(movieId);
       movie.persons = [];
@@ -28,7 +28,7 @@ export class DataSourceController {
         const { id, character } = c;
         const characters = character.split(' / ');
         for ( let i=0; i < characters.length; i = i+ 1 ) {
-          console.log(`Fetching character ${characters[i]}`)
+          console.log(`Fetching character "${characters[i]}"`)
           let ch: CharacterDto = {
             name: characters[i],
             persons: [ id ],
@@ -67,7 +67,7 @@ export class DataSourceController {
     const personsHolder: [number, PersonDto][] = this.dataSourceService.getPersons();
     await Promise.all(personsHolder.map(async ([pid, entity]: [number, PersonDto]) => {
       const person: PersonDto = await this.theMovieDbService.getPerson(pid);
-      console.log(`Fetching person ${person.name}`)
+      console.log(`Fetching person "${person.name}"`)
       this.dataSourceService.setPerson(Object.assign(entity, person));
     }));
     console.log('Fetching The Movie DB was successfully done');
